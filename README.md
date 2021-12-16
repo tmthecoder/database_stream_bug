@@ -1,4 +1,4 @@
-com.tejasmehts.firebaseDatabaseBugSample# firebase_database_bug_sample
+# firebase_database_bug_sample
 
 A new Flutter project.
 
