@@ -92,15 +92,16 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           Center(
             child: Column(
               children: [
-                Builder(
-                  builder: (context) => StreamBuilder<DatabaseEvent>(
+                StreamBuilder<DatabaseEvent>(
                     stream: FirebaseDatabase.instance.ref('test-val').onValue,
                     builder: (context, snapshot) {
                       String value = (snapshot.data?.snapshot.value ?? "") as String;
                       return Text("Database Value: $value");
                     }
-                  ),
                 ),
+                // Builder(
+                //   builder: (context) =>
+                // ),
                 ElevatedButton(
                     onPressed: () {
                       Random r = Random();
