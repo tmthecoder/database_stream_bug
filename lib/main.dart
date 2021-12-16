@@ -38,14 +38,13 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
 
   late final TabController _controller = TabController(length: 2, vsync: this);
   GlobalKey tabKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Demo"),
@@ -70,12 +69,14 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                StreamBuilder<DatabaseEvent>(
-                  stream: FirebaseDatabase.instance.ref('test-val').onValue,
-                  builder: (context, snapshot) {
-                    String value = (snapshot.data?.snapshot.value ?? "") as String;
-                    return Text("Database Value: $value");
-                  },
+                Builder(
+                  builder:  (context) => StreamBuilder<DatabaseEvent>(
+                    stream: FirebaseDatabase.instance.ref('test-val').onValue,
+                    builder: (context, snapshot) {
+                      String value = (snapshot.data?.snapshot.value ?? "") as String;
+                      return Text("Database Value: $value");
+                    },
+                  ),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -91,12 +92,14 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           Center(
             child: Column(
               children: [
-                StreamBuilder<DatabaseEvent>(
-                  stream: FirebaseDatabase.instance.ref('test-val').onValue,
-                  builder: (context, snapshot) {
-                    String value = (snapshot.data?.snapshot.value ?? "") as String;
-                    return Text("Database Value: $value");
-                  }
+                Builder(
+                  builder: (context) => StreamBuilder<DatabaseEvent>(
+                    stream: FirebaseDatabase.instance.ref('test-val').onValue,
+                    builder: (context, snapshot) {
+                      String value = (snapshot.data?.snapshot.value ?? "") as String;
+                      return Text("Database Value: $value");
+                    }
+                  ),
                 ),
                 ElevatedButton(
                     onPressed: () {
@@ -113,7 +116,4 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
